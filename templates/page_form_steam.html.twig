@@ -1,0 +1,36 @@
+{% extends 'base_steam.html.twig' %}
+
+{% block body %}
+    <main>
+        <div class="container">
+            {% include "includes/steam/top-menu.html.twig" %}
+        </div>
+
+        <div class="container-custom">
+            <section class="container-lg mt-5">
+                <div class="max-800 m-auto text-center">
+                    <h1>Postez votre produit sur Steam</h1>
+                    <p>
+                        Nous nous assurons que notre platforme soit la plus “propre” possible, nous vérifions donc chaque produit posté sur Steam. Veuillez ne pas créer de produits à l’encontre de notre règlement.
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <div class="container-custom">
+            <section class="container py-5 section-form">
+                <div class="row row-cols-1 row-cols-lg-3">
+                    <div class="col mb-5">
+                        <h2 class="h3">Informations Principales</h2>
+                        {{ form(MyForm) }}
+
+
+                    </div>
+
+                </div>
+
+
+            </section>
+        </div>
+    </main>
+{% endblock %}

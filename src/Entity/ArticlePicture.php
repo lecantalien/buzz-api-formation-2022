@@ -2,13 +2,17 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ArticlePictureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
+#[ApiResource]
 #[ORM\Entity(repositoryClass: ArticlePictureRepository::class)]
-class ArticlePicture
+class ArticlePicture implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,9 +20,11 @@ class ArticlePicture
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[ApiProperty(readable: true, writable: false)]
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[ApiProperty(readable: true, writable: false)]
     private $url;
 
     #[ORM\OneToMany(mappedBy: 'image', targetEntity: Article::class)]
@@ -86,5 +92,15 @@ class ArticlePicture
         }
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        // TODO: Implement jsonSerialize() method.
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'url' => $this->getUrl(),
+        ];
     }
 }

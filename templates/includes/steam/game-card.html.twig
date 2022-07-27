@@ -1,0 +1,36 @@
+<div class="col">
+    <div class="card card-game">
+        <div class="card-img-top">
+            {% if game.pictures.first is not null %}
+                <img src="{{ game.pictures.first.url }}" alt="{{ game.name }}">
+            {% else %}
+                <img src="/assets/images/satisfactory.png" alt="satisfactory">
+            {% endif %}
+        </div>
+        <div class="card-body">
+            <h3 class="h4">{{ game.name }}</h3>
+            <p class="fw-light text-light">
+{{ game.description}} </p>
+            <div class="d-flex justify-content-end">
+                {% import "macros/pricing.macro.twig" as pricingMacro %}
+                {{ pricingMacro.pricing(game.price, game.promotion) }}
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between p-0 border-0 mt-4">
+                <div class="avis-text me-4">
+                    <p class="m-0">Review 3,4K</p>
+                    <div class="avis d-flex align-items-center">
+                        <img src="/assets/images/emojione_star.png" alt="star" class="star ">
+                        <img src="/assets/images/emojione_star.png" alt="star" class="star ">
+                        <img src="/assets/images/emojione_star.png" alt="star" class="star ">
+                        <img src="/assets/images/emojione_star.png" alt="star" class="star ">
+                        <img src="/assets/images/emojione_star.png" alt="star" class="star disabled">
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <a href="{{ path('page_produit_steam',{slug:game.slug}) }}" class="btn btn-primary btn-sm me-2">Get it now!</a>
+                    <a href="{{ path('page_produit_steam',{slug:game.slug}) }}" class="btn btn-primary btn-sm">+</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

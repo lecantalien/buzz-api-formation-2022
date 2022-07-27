@@ -10,7 +10,27 @@ admin_new_article:
     path: /admin/new-article
     controller: App\Controller\AdminController::newArticle
 
-troll_api:
+troll_api_endpoint:
     path: /api/troll
     controller: App\Controller\DialogController::apiAction
+
+api_custom_upload_file:
+    path: /apic/new-image
+    controller: App\Controller\ImageUploadApiController::index
+    methods: POST
+
+page_index_steam:
+    path: /steam
+    controller: App\Controller\SteamController::index
+
+page_produit_steam:
+    path: /steam/product/{slug}
+    controller: App\Controller\SteamController::product
+    requirements:
+        slug: '[a-zA-Z0-9\-_\/]+'
+
+page_form_steam:
+    path: /steam/form
+    controller: App\Controller\SteamController::form
+
 

@@ -37,7 +37,7 @@ class NewsService
 
     protected function loadNewsFromFile(): void
     {
-        $path = __DIR__ . '/../../data/articles.json';
+        $path = __DIR__ . '/../../data/article.json';
         $contentJson = file_get_contents($path);
         try {
             $contentArray = json_decode($contentJson, true, 512, JSON_THROW_ON_ERROR);

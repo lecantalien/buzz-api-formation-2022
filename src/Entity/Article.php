@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ArticleRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
-
+#[ApiResource]
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
 {
@@ -20,18 +22,18 @@ class Article
     #[ORM\Column(type: 'datetime')]
     private $pubDate;
 
-    #[ORM\Column(type: 'text')]
-    private $description;
+    #[ORM\Column(type: 'string', length: 255)]
+    #[ApiProperty(readable: true, writable: false)]
+    private $slug;
 
     #[ORM\Column(type: 'text')]
     private $content;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $slug;
+    #[ORM\Column(type: 'text')]
+    private $description;
 
     #[ORM\ManyToOne(targetEntity: ArticlePicture::class, inversedBy: 'articles')]
     private $image;
-
 
     public function __construct()
     {
@@ -40,7 +42,6 @@ class Article
         $this->description = '';
         $this->content = '';
         $this->slug = '';
-
     }
 
     public function getId(): ?int
@@ -74,14 +75,15 @@ class Article
         return $this;
     }
 
-    public function getDescription(): ?string
+
+    public function getSlug(): ?string
     {
-        return $this->description;
+        return $this->slug;
     }
 
-    public function setDescription(string $description): self
+    public function setSlug(string $slug): self
     {
-        $this->description = $description;
+        $this->slug = $slug;
 
         return $this;
     }
@@ -98,14 +100,14 @@ class Article
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getDescription(): ?string
     {
-        return $this->slug;
+        return $this->description;
     }
 
-    public function setSlug(string $slug): self
+    public function setDescription(string $description): self
     {
-        $this->slug = $slug;
+        $this->description = $description;
 
         return $this;
     }

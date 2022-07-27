@@ -1,0 +1,29 @@
+{% macro pricing(price, discount = 0) %}
+ {% if price != 0 %}
+  {% if discount != 0 %}
+   {# a un discount #}
+   <div class="price">
+    <div class="text-muted m-0 text-decoration-line-through">
+     {{ price }}€
+    </div>
+    <div class="h3 text-warning m-0">
+     {{ (price*((100-discount)/100))|number_format(2, ',', ' ') }}€
+    </div>
+   </div>
+  {% else %}
+   <div class="price">
+    <div class="h3 text-warning m-0">
+     {{ price }}€
+    </div>
+   </div>
+  {% endif %}
+ {% else %}
+  <div class="price">
+   <div class="h3 text-warning m-0">
+    GRATUIT
+   </div>
+  </div>
+ {% endif %}
+
+
+{% endmacro %}

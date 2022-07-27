@@ -1,0 +1,29 @@
+<header>
+    <a href="{{ path('page_index_steam') }}" class="d-block">
+        <img src="/assets/images/steam.png" alt="steam" id="logo-header">
+    </a>
+    <input id="search-bar" placeholder="Search..." type="search">
+    <img id="friends" src="/assets/images/amis.png" alt="friends">
+    <div id="navigation-jeux">
+        <ul id="ul-nav" class=" m-0 p-0">
+            <li class="li-nav-m">
+                <a href="{{ path('page_index_steam') }}" class="text-white">Votre magasin</a>
+            </li>
+            <li class="li-nav-m">
+                Nouveautés
+            </li>
+            <li class="li-nav-m">
+                Catégories
+            </li>
+            <li class="li-nav-m">
+                Boutique des points
+            </li>
+            <li class="li-nav-m">
+                Actualités
+            </li>
+            <li class="li-nav-m">
+                <a href="{{ path('page_form_steam') }}" class="text-white">Créer un produit</a>
+            </li>
+        </ul>
+    </div>
+</header>
