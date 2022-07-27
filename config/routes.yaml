@@ -2,6 +2,13 @@ controllers:
     resource: ../src/Controller/
     type: attribute
 
+app_logout:
+    path: /logout
+    #controller: App\Controller\LoginController::index
+
+app_login:
+    path: /login
+    controller: App\Controller\LoginController::index
 homepage:
     path: /
     controller: App\Controller\DialogController::defaultAction
