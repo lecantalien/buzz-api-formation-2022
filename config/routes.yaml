@@ -10,7 +10,7 @@ app_login:
     path: /login
     controller: App\Controller\LoginController::index
 homepage:
-    path: /
+    path: /test
     controller: App\Controller\DialogController::defaultAction
 
 admin_new_article:
@@ -26,18 +26,37 @@ api_custom_upload_file:
     controller: App\Controller\ImageUploadApiController::index
     methods: POST
 
+steam_api_cart_content:
+    path: /apic/steam/cart
+    controller: App\Controller\SteamApiController::cartGetContent
+    methods: GET
+
+steam_api_add_game_into_cart:
+    path: /apic/steam/cart
+    controller: App\Controller\SteamApiController::addToCart
+    methods: POST
+
+steam_api_remove_game_from_cart:
+    path: /apic/steam/cart
+    controller: App\Controller\SteamApiController::deleteFromCart
+    methods: DELETE
+
+
 page_index_steam:
-    path: /steam
+    path: /
     controller: App\Controller\SteamController::index
 
 page_produit_steam:
-    path: /steam/product/{slug}
+    path: /product/{slug}
     controller: App\Controller\SteamController::product
     requirements:
         slug: '[a-zA-Z0-9\-_\/]+'
 
 page_form_steam:
-    path: /steam/form
+    path: /form
     controller: App\Controller\SteamController::form
 
+page_cart_content:
+    path: /cart
+    controller: App\Controller\SteamController::cartContent
 

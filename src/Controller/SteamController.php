@@ -5,18 +5,24 @@ namespace App\Controller;
 use App\Entity\Game;
 use App\Entity\Media;
 use App\Form\GameType;
+use App\Services\CartManager;
 use App\Services\GameService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SteamController extends AbstractController
 {
-    public function index(GameService $gameService, Request $request): Response
+    public function index(GameService $gameService,
+                          Request $request,
+                          CartManager $cm): Response
 
     {
+        $cm->_initCart();
+
         $perPage = 8;
         $page = (int)$request->get('page', 1);
 
@@ -38,17 +44,21 @@ class SteamController extends AbstractController
             'pagination' => $pagination,
             'gameDisplay' => $gameDisplay,
             'games' => $games,
+            'cart' => $cm->getUserActualCart(),
         ]);
     }
 
     public function product(
         string $slug,
-        GameService $gameService
+        GameService $gameService,
+        CartManager $cm
     ): Response
     {
+        $cm->_initCart();
+
         $game = $gameService->getBySlug($slug);
         if(!$game instanceof Game) {
-            throw new NotFoundException('Game not found');
+            throw new NotFoundHttpException('Game not found');
         }
         $similarGames = $gameService->getSimilarGames($game);
 
@@ -56,14 +66,33 @@ class SteamController extends AbstractController
             'controller_name' => 'SteamController',
             'game' => $game,
             'similarGames' => $similarGames,
+            'cart' => $cm->getUserActualCart(),
+
+        ]);
+    }
+
+    public function cartContent(
+        GameService $gameService,
+        CartManager $cm
+    ): Response
+    {
+        $cm->_initCart();
+
+        return $this->render('steam/cart_content.html.twig', [
+            'controller_name' => 'SteamController',
+            'cart' => $cm->getUserActualCart(),
+
         ]);
     }
 
     public function form(
         Request      $request,
         EntityManagerInterface $em,
+        CartManager $cm
     ): Response
     {
+        $cm->_initCart();
+
         $game
             = new Game('Nouvel article du '
             . date('d/m/Y'));
@@ -103,6 +132,8 @@ class SteamController extends AbstractController
             return $this->render('page_form_steam.html.twig', [
                 'MyForm' => $form->createView(),
                 'controller_name' => 'SteamController',
+                'cart' => $cm->getUserActualCart(),
+
             ]);
         }
     }

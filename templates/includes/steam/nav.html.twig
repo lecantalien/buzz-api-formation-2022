@@ -4,11 +4,37 @@
             <img id="logo" src="/assets/images/logo.png" alt="Logo">
         </a>
         <img id="diamond" src="/assets/images/diam.png" alt="diamond"><br>
-        <img id="cadi" src="/assets/images/cadi.png" alt="cadi"><br>
+        <a class="position-relative" href="{{ path('page_cart_content') }}">
+            <img id="cadi" src="/assets/images/cadi.png" alt="cadi"><br>
+            {% if cart is defined and cart is not null and cart.cartItems|length > 0 %}
+                <span style="text-decoration: none!important; position: absolute;top: -35px;right: -35px;"
+                    class="badge bg-success">{{ cart.cartItems|length }}</span>
+            {% endif %}
+
+        </a>
+        {% if app.user is not null and is_granted('ROLE_ADMIN') %}
+        <a style="text-decoration: none!important;" href="{{ path('page_form_steam') }}">
+            ➕
+        </a>
+        {% endif %}
+
     </div>
     <div>
+        {% if app.user is not null %}
         <img id="download" src="/assets/images/telech.png" alt="download"><br>
         <img id="param" src="/assets/images/param.png" alt="param"><br>
-        <img id="compte" src="/assets/images/compte.png" alt="compte">
+        {% endif %}
+        {% if app.user is not null %}
+        <a href="{{ path('app_logout') }}">
+            <img id="compte"
+               style="filter: sepia(100) saturate(200) hue-rotate(37deg);"
+               src="/assets/images/compte.png" alt="compte"></a>
+        {% else %}
+            <a href="{{ path('app_login') }}">
+            <img id="compte"
+                 style="filter: sepia(100) saturate(200) hue-rotate(291deg) saturate(200);"
+                 src="/assets/images/compte.png" alt="compte">
+            </a>
+        {% endif %}
     </div>
 </nav>

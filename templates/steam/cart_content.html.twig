@@ -1,0 +1,158 @@
+{% extends 'base_steam.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        @media (min-width: 1025px) {
+            .h-custom {
+                height: 100vh !important;
+            }
+        }
+
+        .card-registration .select-input.form-control[readonly]:not([disabled]) {
+            font-size: 1rem;
+            line-height: 2.15;
+            padding-left: .75em;
+            padding-right: .75em;
+        }
+
+        .card-registration .select-arrow {
+            top: 13px;
+        }
+
+        .bg-grey {
+            background-color: #eae8e8;
+        }
+
+        @media (min-width: 992px) {
+            .card-registration-2 .bg-grey {
+                border-top-right-radius: 16px;
+                border-bottom-right-radius: 16px;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .card-registration-2 .bg-grey {
+                border-bottom-left-radius: 16px;
+                border-bottom-right-radius: 16px;
+            }
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <main>
+        <div class="container">
+            {% include "includes/steam/top-menu.html.twig" %}
+        </div>
+
+        {% if cart is defined and cart is not null %}
+            <div class="container">
+                <section class="h-100 h-custom text-primary pb-4">
+                    <div class="container py-5 h-100">
+                        <div class="row d-flex justify-content-center align-items-center h-100">
+                            <div class="col-12">
+                                <div class="card  card-registration card-registration-2 bg-primary text-white"
+                                     style="border-radius: 15px;">
+                                    <div class="card-body p-0">
+                                        <div class="row g-0">
+                                            <div class="col-lg-8">
+                                                <div class="p-5">
+                                                    <div class="d-flex justify-content-between align-items-center mb-5">
+                                                        <h1 class="fw-bold mb-0">Mon Panier</h1>
+                                                        <h6 class="mb-0 badge bg-success">{{ cart.cartItems|length }}
+                                                            jeux</h6>
+                                                    </div>
+                                                    <hr class="my-4">
+
+                                                    {% for cartItem in cart.cartItems %}
+
+                                                        <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                                                {% if cartItem.game.pictures.first != false %}
+                                                                    <img src="{{ cartItem.game.pictures.first.url }}"
+                                                                         alt="{{ cartItem.game.name }}"
+                                                                         class="img-fluid rounded-1">
+                                                                {% else %}
+                                                                    <img src="/assets/images/satisfactory.png"
+                                                                         class="img-fluid rounded-1" alt="satisfactory">
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="col-md-3 col-lg-3 col-xl-3">
+                                                                <h6 class="">{{ cartItem.game.name }}</h6>
+                                                            </div>
+                                                            <div class="col-md-3 col-lg-3 col-xl-3">
+                                                                <h6 class="text-muted mb-0">
+                                                                    {% for plateformes in cartItem.game.plateformes %}
+                                                                        {{ plateformes }}{% if loop.last == false %},{% endif %}
+                                                                    {% endfor %}
+                                                                </h6>
+                                                            </div>
+                                                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                                <div class="mb-0">
+                                                                    {% import "macros/pricing.macro.twig" as pricingMacro %}
+                                                                    {{ pricingMacro.pricing(cartItem.game.price, cartItem.game.promotion, 'h6', '') }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                                                <button href="#!" class="btn btn-danger">✖</button>
+                                                            </div>
+                                                        </div>
+
+                                                        {% if loop.last == false %}
+                                                            <hr class="my-4">
+                                                        {% endif %}
+                                                    {% endfor %}
+
+                                                    <hr class="my-4">
+                                                    <div class="pt-5">
+                                                        <h6 class="mb-0"><a href="{{ path('page_index_steam') }}"
+                                                                            class="text-body"><i
+                                                                        class="fas fa-long-arrow-alt-left me-2"></i>Retour
+                                                                au magasin</a></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 bg-gradient">
+                                                <div class="p-5">
+                                                    <h3 class="fw-bold mb-5 mt-2 pt-1">Récapitulatif</h3>
+                                                    <hr class="my-4">
+
+                                                    <div class="d-flex justify-content-between mb-4">
+                                                        <h5 class="text-uppercase">{{ cart.cartItems|length }} jeux</h5>
+                                                        <h5>{{ cart.getTotalPrice()|number_format(2, ',', ' ') }}€</h5>
+                                                    </div>
+
+                                                    <h5 class="text-uppercase mb-3">Code promo</h5>
+
+                                                    <div class="mb-5">
+                                                        <div class="form-outline">
+                                                            <input type="text" id="form3Examplea2"
+                                                                   placeholder="Entrez un code..."
+                                                                   class="form-control form-control-lg"/>
+                                                        </div>
+                                                    </div>
+
+                                                    <hr class="my-4">
+
+                                                    <div class="d-flex justify-content-between mb-5">
+                                                        <h5 class="text-uppercase">Prix Total</h5>
+                                                        <h5>{{ cart.getTotalPrice()|number_format(2, ',', ' ') }}€</h5>
+                                                    </div>
+
+                                                    <button type="button" class="btn btn-success btn-block btn-lg"
+                                                            data-mdb-ripple-color="dark">💳 Payer
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        {% endif %}
+    </main>
+{% endblock %}

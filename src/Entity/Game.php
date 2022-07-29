@@ -121,6 +121,14 @@ class Game
         return $this->price;
     }
 
+    public function getPriceWithPromotion(): ?float
+    {
+        if ($this->promotion <= 0) {
+            return $this->price;
+        }
+        return round($this->price * ((100 - $this->promotion) / 100), 2);
+    }
+
     public function setPrice(float $price): self
     {
         $this->price = $price;

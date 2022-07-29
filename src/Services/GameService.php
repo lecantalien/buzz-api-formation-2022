@@ -44,6 +44,12 @@ class GameService
             ->findOneBy(['slug' => $slug]);
     }
 
+    public function getByID(int $id): ?Game
+    {
+        return $this->em->getRepository(Game::class)
+            ->findOneBy(['id' => $id]);
+    }
+
     /**
      * get a list by by slug
      *
