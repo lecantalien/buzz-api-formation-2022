@@ -117,6 +117,7 @@ class SteamApiController extends AbstractController
         CartManager            $cm,
         GameService            $gameService,
         EntityManagerInterface $em,
+        $gameid = null,
     ): Response
     {
         $cm->_initCart();
@@ -126,16 +127,14 @@ class SteamApiController extends AbstractController
             'cart' => null,
         ];
 
-
-        $gameId = $request->get('game_id', null);
-        if ($gameId === null) {
+        if ($gameid === null) {
             return new JsonResponse([
                 'error' => true,
                 'message' => 'Game id is required',
             ], 400);
         }
 
-        $game = $gameService->getByID((int)$gameId);
+        $game = $gameService->getByID((int)$gameid);
         if (!$game instanceof Game) {
             return new JsonResponse([
                 'error' => true,

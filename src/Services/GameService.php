@@ -14,12 +14,42 @@ class GameService
         $this->em = $em;
     }
 
-    public function getSimilarGames(Game $game): array
+    public function searchQuery(string $query): array
+    {
+        $queryItems = explode(' ', $query);
+
+        $gameRepo = $this->em->getRepository(Game::class);
+        $qb = $gameRepo->createQueryBuilder('g');
+        $qb = $qb
+            ->where('1 = 1')
+            ->setMaxResults(50)
+            ->orderBy('g.dateRelease', 'DESC');
+
+        $i = 0;
+        foreach ($queryItems as $qi) {
+            $qi = trim($qi);
+            $key = 'qistr' . $i;
+            if ($i === 0) {
+                $qb = $qb
+                    ->andWhere('g.name LIKE :' . $key)
+                    ->setParameter($key, '%' . $qi . '%');
+            } else {
+                $qb = $qb
+                    ->orWhere('g.name LIKE :' . $key)
+                    ->setParameter($key, '%' . $qi . '%');
+            }
+            $i++;
+        }
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getSimilarGames(Game $game, int $max = 4): array
     {
         $allTypes = $game->getType()->toArray();
         $gameRepo = $this->em->getRepository(Game::class);
         $qb = $gameRepo->createQueryBuilder('g');
         $qb = $qb
+            ->setMaxResults($max)
             ->where('1 = 1')
             ->andWhere('g.id != :id')
             ->setParameter('id', $game->getId())

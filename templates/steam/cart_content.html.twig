@@ -63,6 +63,25 @@
                                                             jeux</h6>
                                                     </div>
                                                     <hr class="my-4">
+                                                    {% if cart.cartItems|length <= 0 %}
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="p-5 text-center">
+                                                                Votre panier est vide 😅 !<br>
+                                                                <a class="text-white text-secondary"
+                                                                   href="{{ path('page_index_steam') }}">Visiter la
+                                                                    boutique !</a>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+
+                                                    {% if cart.cartItems|length <= 0 %}
+                                                    <div class="d-flex justify-content-center align-items-center">
+                                                        <div class="p-5 text-center">
+                                                            votre panier est vide 🤣 <br>
+                                                            <a class="text-white text-secondary" href="{{ path('page_index_steam') }}"> Visiter la boutique !</a>
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
 
                                                     {% for cartItem in cart.cartItems %}
 
@@ -94,7 +113,9 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                                                <button href="#!" class="btn btn-danger">✖</button>
+                                                                <button data-id="{{ cartItem.game.id }}"
+                                                                        class="btn btn-danger remove-from-cart">✖
+                                                                </button>
                                                             </div>
                                                         </div>
 

@@ -67,7 +67,6 @@ class SteamController extends AbstractController
             'game' => $game,
             'similarGames' => $similarGames,
             'cart' => $cm->getUserActualCart(),
-
         ]);
     }
 
@@ -119,16 +118,12 @@ class SteamController extends AbstractController
                             ->setUrl('/assets/uploads/' . $fileName);
                         $em->persist($media);
                         $game->addPicture($media);
-
                     }
                 }
             } $em->persist($game);
             $em->flush();
            // dump($files, $game);die;
         }
-
-
-
             return $this->render('page_form_steam.html.twig', [
                 'MyForm' => $form->createView(),
                 'controller_name' => 'SteamController',
@@ -136,4 +131,22 @@ class SteamController extends AbstractController
 
             ]);
         }
+
+    public function search(
+        Request     $request,
+        CartManager $cm,
+        GameService $gameService,
+    ): Response
+    {
+        $cm->_initCart();
+        $query = $request->query->get('q', '');
+        $results = $gameService->searchQuery($query);
+        return $this->render('steam/search_display.html.twig', [
+            'controller_name' => 'SteamController',
+            'cart' => $cm->getUserActualCart(),
+            'query' => $query,
+            'searchItems' => $results,
+        ]);
     }
+
+}

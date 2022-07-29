@@ -24,8 +24,11 @@
                             </div>
                         </div>
                         <div class="d-flex  mb-2 mb-sm-0">
-                            <a href="{{ path('page_produit_steam',{slug:gameDisplay.slug}) }}" class="btn btn-primary me-2">Get it now!</a>
-                            <a href="{{ path('page_produit_steam',{slug:gameDisplay.slug}) }}" class="btn btn-primary">+</a>
+                            <a href="{{ path('page_produit_steam',{slug:gameDisplay.slug}) }}" class="btn btn-secondary me-2">Get
+                                it now 👀 !</a>
+                            <a href="#"
+                               data-id="{{ gameDisplay.id }}"
+                               class="btn btn-primary btn-sm d-flex justify-content-center align-items-center add-to-cart">🛒</a>
                         </div>
                     </div>
                     <div class="price">
